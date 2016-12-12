@@ -3,10 +3,11 @@
 use Legionth\React\Http\HttpServer;
 use React\Socket\Server as Socket;
 use RingCentral\Psr7\Response;
+use Psr\Http\Message\RequestInterface;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$callback = function($request) {
+$callback = function(RequestInterface $request) {
     $body = '
 <html>
 <body>

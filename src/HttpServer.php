@@ -12,6 +12,7 @@ use React\Socket\ConnectionInterface;
 use RingCentral;
 use React\Stream\ReadableStream;
 use React\Promise\Promise;
+use Psr\Http\Message\RequestInterface;
 
 class HttpServer extends EventEmitter
 {
@@ -91,10 +92,10 @@ class HttpServer extends EventEmitter
 
     /**
      * Checks if the 'Transfer-Encoding: chunked' is set anywhere in the header
-     * @param Request $request - user request object containing the header
+     * @param RequestInterface $request - user request object containing the header
      * @return boolean
      */
-    public function isChunkedEncodingActive(Request $request)
+    public function isChunkedEncodingActive(RequestInterface $request)
     {
         $transferEncodingArray = $request->getHeader('Transfer-Encoding');
 
@@ -113,9 +114,9 @@ class HttpServer extends EventEmitter
      *
      * @param ConnectionInterface $connection - connection between user and server, the response will be written
      *                                          on this connection
-     * @param Request $request - User request to be handled by the callback function
+     * @param RequestInterface $request - User request to be handled by the callback function
      */
-    public function handleRequest(ConnectionInterface $connection, Request $request)
+    public function handleRequest(ConnectionInterface $connection, RequestInterface $request)
     {
         $callback = $this->callback;
 
@@ -167,9 +168,9 @@ class HttpServer extends EventEmitter
      *
      * @param string $body - body to be added to the request object
      * @param ConnectionInterface $connection - client-server connection
-     * @param Request $request - Adds the body to this request object
+     * @param RequestInterface $request - Adds the body to this request object
      */
-    public function sendBody($body, ConnectionInterface $connection, Request $request)
+    public function sendBody($body, ConnectionInterface $connection, RequestInterface $request)
     {
         $request = $request->withBody(RingCentral\Psr7\stream_for($body));
         $this->handleRequest($connection, $request);
