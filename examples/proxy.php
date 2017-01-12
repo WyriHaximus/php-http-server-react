@@ -14,8 +14,6 @@ $loop = React\EventLoop\Factory::create();
 
 $callback = function(RequestInterface $request) use ($loop){
     return new Promise(function ($resolve, $reject) use ($request, $loop) {
-        echo RingCentral\Psr7\str($request);
-
         $connector = new TcpConnector($loop);
         $resolverFactory = new React\Dns\Resolver\Factory();
         $resolver = $resolverFactory->create('8.8.8.8', $loop);
@@ -24,16 +22,17 @@ $callback = function(RequestInterface $request) use ($loop){
 
         $host = $request->getHeader('Host')[0];
         $hostArray = parse_url($host);
-        echo json_encode($hostArray);
 
         $port = 80;
         if (isset($hostArray['port'])) {
             $port = $hostArray['port'];
         }
+
         if (isset($hostArray['host'])) {
             $host = $hostArray['host'];
         }
 
+        // Create to given Host:Port
         $dnsConnector->create($host, $port)->then(function ($stream) use ($request, $resolve){
             $body = $request->getBody();
             $body->on('data', function ($chunk) use ($resolve, $stream) {
