@@ -14,6 +14,7 @@ HTTP server written in PHP on top of ReactPHP.
   * [Creating your own middleware](#creating-your-own-middleware)
  * [Streaming responses](#streaming-responses)
  * [Streaming requests](#streaming-requests)
+ * [HTTPS server](#https-server)
 * [License](#license)
 
 ## Usage
@@ -255,6 +256,12 @@ The `end` event will be sent when the client transfer is completed.
 This is just an example you can use a [BufferedSink](https://github.com/reactphp/stream) from the `reactphp/stream` to avoid these lines of code.
 
 Check out the `examples` folder how your server could look like.
+
+### HTTPS Server
+
+The HTTP server can be set to an HTTPS server by using the [SecureServer from the socket package of ReactPHP](https://github.com/reactphp/socket#secureserver).
+
+Check out the `examples` folder how your HTTPS server could look like.
 
 ## Install
 
